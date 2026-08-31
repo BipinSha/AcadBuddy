@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% if title %}{{ title }} · {% endif %}{{ site.title }}</title>
+  <meta name="description" content="{{ description or site.description }}">
+  <link rel="canonical" href="{{ site.url }}{{ page.url }}">
+  <meta property="og:title" content="{% if title %}{{ title }} · {% endif %}{{ site.title }}">
+  <meta property="og:description" content="{{ description or site.description }}">
+  <meta property="og:type" content="{{ 'article' if isArticle else 'website' }}">
+  <meta property="og:url" content="{{ site.url }}{{ page.url }}">
+  <meta name="theme-color" content="#0b1220">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  {% if isArticle %}
+  <script type="application/ld+json">{{ schema | safe }}</script>
+  {% endif %}
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="/" aria-label="AcadBuddy home"><span>Acad</span>Buddy</a>
+      <nav aria-label="Main navigation">
+        <a href="/study-abroad/">Study Abroad</a>
+        <a href="/scholarships/">Scholarships</a>
+        <a href="/academic-tips/">Academics</a>
+        <a href="/engineering-energy/">Engineering & Energy</a>
+        <a href="/technology/">Technology</a>
+        <a href="/about/">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>{{ content | safe }}</main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div><div class="brand footer-brand"><span>Acad</span>Buddy</div><p>{{ site.description }}</p></div>
+      <div><strong>Explore</strong><a href="/articles/">Articles</a><a href="/scholarships/">Scholarships</a><a href="/study-abroad/">Study Abroad</a></div>
+      <div><strong>About</strong><a href="/about/">About AcadBuddy</a><a href="/contact/">Contact</a></div>
+    </div>
+    <div class="container footer-bottom">© {{ 'now' | readableDate | slice(0, 4) }} AcadBuddy. All rights reserved.</div>
+  </footer>
+</body>
+</html>
