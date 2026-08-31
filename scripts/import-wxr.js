@@ -16,6 +16,7 @@ const text = (value) => { if (value == null) return ''; if (typeof value === 'ob
 const clean = (value) => text(value).replace(/<!--.*?-->/gs, '').replace(/\[[^\]]+\]/g, '').replace(/<script[\s\S]*?<\/script>/gi, '').replace(/<style[\s\S]*?<\/style>/gi, '').replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/\s+/g, ' ').trim();
 const yaml = (value) => JSON.stringify(String(value || ''));
 const slugify = (value) => String(value || '').toLowerCase().trim().replace(/['’]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const normalizeDate = (value) => { const raw = String(value || '').trim(); if (!raw) return ''; const match = raw.match(/^(\d{4})-(\d{2})-(\d{2})(?:[ T](\d{2}):(\d{2}):(\d{2}))?/); if (!match) { const parsed = new Date(raw); return Number.isNaN(parsed.getTime()) ? '' : parsed.toISOString(); } const [, y, m, d, hh = '00', mm = '00', ss = '00'] = match; return `${y}-${m}-${d}T${hh}:${mm}:${ss}`; };
 const categoryMap = {
   'Academic Tips': 'Academic Tips', 'Academics': 'Academic Tips',
   'Scholarship': 'Scholarships', 'Scholarships': 'Scholarships',
@@ -34,7 +35,7 @@ for (const item of items) {
   const title = text(item.title) || 'Untitled';
   const slug = text(item['wp:post_name']) || slugify(title);
   const content = text(item['content:encoded']);
-  const date = text(item['wp:post_date']) || text(item.pubDate);
+  const date = normalizeDate(text(item['wp:post_date']) || text(item.pubDate));
   const rawCategories = Array.isArray(item.category) ? item.category : (item.category ? [item.category] : []);
   const categoryNames = rawCategories.map((c) => typeof c === 'object' ? text(c.__cdata || c['#text']) : text(c)).filter(Boolean).map((name) => categoryMap[name] || name);
   const categories = [...new Set(categoryNames)];
@@ -45,7 +46,7 @@ for (const item of items) {
   fs.mkdirSync(dir, { recursive: true });
   const layout = type === 'page' ? 'page.njk' : 'article.njk';
   const frontmatter = ['---', `title: ${yaml(title)}`, `description: ${yaml(description)}`, `date: ${yaml(date)}`, `permalink: ${yaml(permalink)}`, `legacySlug: ${yaml(slug)}`, `categories: ${JSON.stringify(categories)}`, `layout: ${layout}`, '---', ''].join('\n');
-  fs.writeFileSync(path.join(dir, `${safeName}.md`), frontmatter + content + '\n', 'utf8');
+  fs.writeFileSync(path.join(dir, `${safeName}-${type}.md`), frontmatter + content + '\n', 'utf8');
   count++;
 }
 console.log(`Imported ${count} published WordPress posts/pages into ${output}`);
