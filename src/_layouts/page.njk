@@ -1,0 +1,11 @@
+---
+layout: base.njk
+---
+<article class="article-page container page-content">
+  <div class="article-header">
+    <span class="eyebrow">ACADBUDDY</span>
+    <h1>{{ title }}</h1>
+    {% if description %}<p class="article-dek">{{ description }}</p>{% endif %}
+  </div>
+  <div class="article-content">{{ content | safe }}</div>
+</article>
