@@ -20,6 +20,7 @@ module.exports = function (eleventyConfig) {
   });
 
   eleventyConfig.addFilter('limit', (arr, count) => (arr || []).slice(0, count));
+  eleventyConfig.addFilter('byCategory', (posts, category) => (posts || []).filter((post) => (post.data.categories || []).some((item) => String(item).toLowerCase() === String(category).toLowerCase())));
 
   return {
     dir: { input: 'src', includes: '_includes', layouts: '_layouts', output: '_site' },
