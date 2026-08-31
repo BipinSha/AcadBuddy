@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% if title %}{{ title }} · {% endif %}{{ site.title }}</title>
   <meta name="description" content="{{ description or site.description }}">
   <link rel="canonical" href="{{ site.url }}{{ page.url }}">
+  <title>{% if title %}{{ title }} · {% endif %}{{ site.title }}</title>
   <meta property="og:title" content="{% if title %}{{ title }} · {% endif %}{{ site.title }}">
   <meta property="og:description" content="{{ description or site.description }}">
   <meta property="og:type" content="{{ 'article' if isArticle else 'website' }}">
@@ -14,8 +14,31 @@
   <link rel="stylesheet" href="/assets/css/site.css">
 </head>
 <body>
-  <header class="site-header"><div class="container nav-wrap"><a class="brand" href="/" aria-label="AcadBuddy home"><span>Acad</span>Buddy</a><nav aria-label="Main navigation"><a href="/study-abroad/">Study Abroad</a><a href="/scholarships/">Scholarships</a><a href="/academic-tips/">Academics</a><a href="/engineering-energy/">Engineering & Energy</a><a href="/technology/">Technology</a><a href="/about/">About</a></nav></div></header>
-  <main>{{ content | safe }}</main>
-  <footer class="site-footer"><div class="container footer-grid"><div><div class="brand footer-brand"><span>Acad</span>Buddy</div><p>{{ site.description }}</p></div><div><strong>Explore</strong><a href="/articles/">Articles</a><a href="/scholarships/">Scholarships</a><a href="/study-abroad/">Study Abroad</a></div><div><strong>About</strong><a href="/about/">About AcadBuddy</a><a href="/contact/">Contact</a></div></div><div class="container footer-bottom">© {{ site.year }} AcadBuddy. All rights reserved.</div></footer>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="/" aria-label="AcadBuddy home"><span>Acad</span>Buddy</a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+      <nav id="main-nav" aria-label="Main navigation">
+        <a href="/study-abroad/">Study Abroad</a>
+        <a href="/scholarships/">Scholarships</a>
+        <a href="/academic-tips/">Academics</a>
+        <a href="/engineering-energy/">Engineering &amp; Energy</a>
+        <a href="/technology/">Technology</a>
+        <a href="/nepal-resources/">Nepal Resources</a>
+        <a href="/about/">About</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main">{{ content | safe }}</main>
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div><div class="brand footer-brand"><span>Acad</span>Buddy</div><p>{{ site.description }}</p></div>
+      <div><strong>Explore</strong><a href="/articles/">Articles</a><a href="/scholarships/">Scholarships</a><a href="/study-abroad/">Study Abroad</a><a href="/nepal-resources/">Nepal Resources</a></div>
+      <div><strong>About</strong><a href="/about/">About AcadBuddy</a><a href="/contact/">Contact</a></div>
+    </div>
+    <div class="container footer-bottom">© {{ site.year }} AcadBuddy. All rights reserved.</div>
+  </footer>
+  <script>document.querySelector('.menu-toggle')?.addEventListener('click',function(){const n=document.querySelector('#main-nav');const open=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',String(!open));n.classList.toggle('is-open',!open);});</script>
 </body>
 </html>
