@@ -1,0 +1,9 @@
+<article class="card article-card">
+  {% if image %}<img src="{{ image }}" alt="" loading="lazy">{% endif %}
+  <div class="card-body">
+    {% if category %}<span class="eyebrow">{{ category }}</span>{% endif %}
+    <h3><a href="{{ url }}">{{ title }}</a></h3>
+    {% if description %}<p>{{ description }}</p>{% endif %}
+    {% if date %}<time datetime="{{ date | htmlDateString }}">{{ date | readableDate }}</time>{% endif %}
+  </div>
+</article>
