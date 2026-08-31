@@ -1,0 +1,12 @@
+---
+layout: base.njk
+---
+<article class="article-page container">
+  <div class="article-header">
+    {% if categories and categories[0] %}<span class="eyebrow">{{ categories[0] }}</span>{% endif %}
+    <h1>{{ title }}</h1>
+    {% if description %}<p class="article-dek">{{ description }}</p>{% endif %}
+    <div class="article-meta">By {{ site.author }}{% if date %} · {{ date | readableDate }}{% endif %}</div>
+  </div>
+  <div class="article-content">{{ content | safe }}</div>
+</article>
