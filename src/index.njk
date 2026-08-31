@@ -1,0 +1,28 @@
+---
+layout: base.njk
+title: Learn. Explore. Build Your Future.
+description: Practical academic guidance, scholarships, study abroad resources, technology, engineering and energy topics.
+---
+
+<section class="hero">
+  <div class="container hero-grid">
+    <div>
+      <span class="eyebrow">ACADEMIC • CAREER • TECHNOLOGY</span>
+      <h1>Learn. Explore.<br><span>Build Your Future.</span></h1>
+      <p class="hero-copy">AcadBuddy brings together practical academic guidance, scholarship opportunities, study-abroad resources, engineering and energy knowledge, and useful technology guides.</p>
+      <div class="actions"><a class="button primary" href="/articles/">Explore articles</a><a class="button secondary" href="/scholarships/">Find scholarships</a></div>
+    </div>
+    <div class="hero-panel"><div class="hero-stat"><strong>Since 2019</strong><span>Helping learners find useful, practical information.</span></div><div class="hero-stat"><strong>6 areas</strong><span>Academics, scholarships, study abroad, engineering, energy and technology.</span></div></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container"><div class="section-heading"><div><span class="eyebrow">EXPLORE</span><h2>What are you looking for?</h2></div><a href="/articles/">View all →</a></div>
+  <div class="category-grid">
+    {% for category in site.categories %}<a class="category-card" href="/{{ category.slug }}/"><span>{{ loop.index | string | padStart(2, '0') }}</span><h3>{{ category.name }}</h3><p>{{ category.description }}</p></a>{% endfor %}
+  </div></div>
+</section>
+
+<section class="section tinted"><div class="container"><div class="section-heading"><div><span class="eyebrow">FROM THE ARCHIVE</span><h2>Useful guides, not just news</h2></div><p>We are rebuilding the best of AcadBuddy's existing library while preserving its useful URLs and search visibility.</p></div><div class="feature-strip"><div><strong>Scholarships</strong><p>Discover funding opportunities and learn how to approach applications.</p></div><div><strong>Study Abroad</strong><p>Practical guides for admissions, visas, documents and international study.</p></div><div><strong>Engineering & Energy</strong><p>Accessible technical content from engineering to the energy transition.</p></div></div></div></section>
+
+<section class="section"><div class="container newsletter"><div><span class="eyebrow">STAY CURIOUS</span><h2>Useful knowledge, when you need it.</h2><p>The new AcadBuddy will make the archive easier to browse, search and revisit.</p></div><a class="button primary" href="/about/">About AcadBuddy</a></div></section>
