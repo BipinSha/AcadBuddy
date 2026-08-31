@@ -4,11 +4,12 @@
   "private": true,
   "description": "AcadBuddy - academic tips, scholarships, study abroad, technology, engineering and energy resources.",
   "scripts": {
-    "build": "eleventy",
-    "start": "eleventy --serve",
-    "clean": "rm -rf _site"
+    "build": "node scripts/import-wxr.js && eleventy",
+    "start": "node scripts/import-wxr.js && eleventy --serve",
+    "clean": "rm -rf _site src/_generated"
   },
   "devDependencies": {
-    "@11ty/eleventy": "^3.1.2"
+    "@11ty/eleventy": "^3.1.2",
+    "fast-xml-parser": "^5.2.5"
   }
 }
