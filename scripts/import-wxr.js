@@ -25,7 +25,15 @@ const categoryMap = {
   'Technology': 'Technology', 'Tutorials': 'Technology',
   'Nepal Resources': 'Nepal Resources', 'Nepal': 'Nepal Resources'
 };
-const permalinkFromItem = (item, slug) => { try { const url = new URL(text(item.link)); const pathname = url.pathname || `/${slug}/`; return pathname.endsWith('/') ? pathname : `${pathname}/`; } catch { return `/${slug}/`; } };
+const permalinkFromItem = (item, slug) => {
+  try {
+    const url = new URL(text(item.link));
+    const pathname = url.pathname || `/${slug}/`;
+    return (pathname === '/' || pathname === '') ? `/${slug}/` : (pathname.endsWith('/') ? pathname : `${pathname}/`);
+  } catch {
+    return `/${slug}/`;
+  }
+};
 
 let count = 0;
 for (const item of items) {
@@ -34,6 +42,7 @@ for (const item of items) {
   if (!['post', 'page'].includes(type) || status !== 'publish') continue;
   const title = text(item.title) || 'Untitled';
   const slug = text(item['wp:post_name']) || slugify(title);
+  if (type === 'page' && ['home', 'homepage', 'front-page'].includes(slugify(slug))) continue;
   const content = text(item['content:encoded']);
   const date = normalizeDate(text(item['wp:post_date']) || text(item.pubDate));
   const rawCategories = Array.isArray(item.category) ? item.category : (item.category ? [item.category] : []);
