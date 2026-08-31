@@ -1,0 +1,11 @@
+---
+layout: base.njk
+pagination:
+  data: site.categories
+  size: 1
+  alias: category
+permalink: "/{{ category.slug }}/"
+title: "{{ category.name }}"
+description: "{{ category.description }}"
+---
+<section class="section category-page"><div class="container"><span class="eyebrow">EXPLORE</span><h1>{{ category.name }}</h1><p class="page-intro">{{ category.description }}</p><div class="article-grid">{% set posts = collections.all | byCategory(category.name) %}{% for post in posts | reverse %}<article class="card article-card"><div class="card-body"><span class="eyebrow">{{ category.name }}</span><h3><a href="{{ post.url }}">{{ post.data.title }}</a></h3><p>{{ post.data.description }}</p>{% if post.date %}<time datetime="{{ post.date | htmlDateString }}">{{ post.date | readableDate }}</time>{% endif %}</div></article>{% endfor %}</div></div></section>
