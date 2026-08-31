@@ -1,0 +1,28 @@
+---
+layout: base.njk
+pagination:
+  data: collections.all
+  size: 12
+  alias: posts
+permalink: "/articles/{% if pagination.pageNumber > 0 %}page/{{ pagination.pageNumber + 1 }}/{% endif %}"
+title: "Articles"
+description: "Browse AcadBuddy's latest academic, scholarship, study abroad, engineering, energy and technology articles."
+---
+<section class="section listing-page">
+  <div class="container">
+    <span class="eyebrow">THE LIBRARY</span>
+    <h1>Articles</h1>
+    <p class="page-intro">Practical guides and useful knowledge from the AcadBuddy archive.</p>
+    <div class="article-grid">
+      {% for post in posts | reverse %}
+        {% include "article-card.njk" %}
+      {% endfor %}
+    </div>
+    {% if pagination.href.next or pagination.href.previous %}
+      <nav class="pagination" aria-label="Article pages">
+        {% if pagination.href.previous %}<a class="button secondary" href="{{ pagination.href.previous }}">← Newer</a>{% endif %}
+        {% if pagination.href.next %}<a class="button secondary" href="{{ pagination.href.next }}">Older →</a>{% endif %}
+      </nav>
+    {% endif %}
+  </div>
+</section>
