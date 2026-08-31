@@ -16,7 +16,14 @@ const text = (value) => { if (value == null) return ''; if (typeof value === 'ob
 const clean = (value) => text(value).replace(/<!--.*?-->/gs, '').replace(/\[[^\]]+\]/g, '').replace(/<script[\s\S]*?<\/script>/gi, '').replace(/<style[\s\S]*?<\/style>/gi, '').replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/\s+/g, ' ').trim();
 const yaml = (value) => JSON.stringify(String(value || ''));
 const slugify = (value) => String(value || '').toLowerCase().trim().replace(/['’]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-const categoryMap = { 'Academic Tips': 'Academic Tips', 'Scholarship': 'Scholarships', 'Study Abroad': 'Study Abroad', 'Energy': 'Engineering & Energy', 'Technology': 'Technology', 'Tutorials': 'Technology' };
+const categoryMap = {
+  'Academic Tips': 'Academic Tips', 'Academics': 'Academic Tips',
+  'Scholarship': 'Scholarships', 'Scholarships': 'Scholarships',
+  'Study Abroad': 'Study Abroad',
+  'Energy': 'Engineering & Energy', 'Engineering': 'Engineering & Energy', 'Engineering & Energy': 'Engineering & Energy',
+  'Technology': 'Technology', 'Tutorials': 'Technology',
+  'Nepal Resources': 'Nepal Resources', 'Nepal': 'Nepal Resources'
+};
 const permalinkFromItem = (item, slug) => { try { const url = new URL(text(item.link)); const pathname = url.pathname || `/${slug}/`; return pathname.endsWith('/') ? pathname : `${pathname}/`; } catch { return `/${slug}/`; } };
 
 let count = 0;
@@ -30,12 +37,14 @@ for (const item of items) {
   const date = text(item['wp:post_date']) || text(item.pubDate);
   const rawCategories = Array.isArray(item.category) ? item.category : (item.category ? [item.category] : []);
   const categoryNames = rawCategories.map((c) => typeof c === 'object' ? text(c.__cdata || c['#text']) : text(c)).filter(Boolean).map((name) => categoryMap[name] || name);
+  const categories = [...new Set(categoryNames)];
   const description = clean(content).slice(0, 180);
   const permalink = permalinkFromItem(item, slug);
   const safeName = `${slugify(slug) || `item-${count + 1}`}-${type}`;
   const dir = path.join(output, type === 'page' ? 'pages' : 'articles');
   fs.mkdirSync(dir, { recursive: true });
-  const frontmatter = ['---', `title: ${yaml(title)}`, `description: ${yaml(description)}`, `date: ${yaml(date)}`, `permalink: ${yaml(permalink)}`, `legacySlug: ${yaml(slug)}`, `categories: ${JSON.stringify(categoryNames)}`, 'layout: article.njk', '---', ''].join('\n');
+  const layout = type === 'page' ? 'page.njk' : 'article.njk';
+  const frontmatter = ['---', `title: ${yaml(title)}`, `description: ${yaml(description)}`, `date: ${yaml(date)}`, `permalink: ${yaml(permalink)}`, `legacySlug: ${yaml(slug)}`, `categories: ${JSON.stringify(categories)}`, `layout: ${layout}`, '---', ''].join('\n');
   fs.writeFileSync(path.join(dir, `${safeName}.md`), frontmatter + content + '\n', 'utf8');
   count++;
 }
